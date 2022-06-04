@@ -1,23 +1,31 @@
 package com.ij.mlwithtensorflowlite;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
+
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.time.Duration;
 
 import app.ij.mlwithtensorflowlite.R;
 import app.ij.mlwithtensorflowlite.ml.FinalDataset;
@@ -34,6 +42,17 @@ public class MainActivity extends AppCompatActivity {
         confidence = findViewById(R.id.confidence);
         imageView = findViewById(R.id.imageView);
         picture = findViewById(R.id.button);
+        View parentLayout = findViewById(android.R.id.content);
+        Snackbar mySnackbar= Snackbar.make(parentLayout,"Starter-Guide", 3000).setAction("OPEN", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://www.youtube.com/shorts/T3bRW5Xq29E";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });;
+        mySnackbar.show();
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
