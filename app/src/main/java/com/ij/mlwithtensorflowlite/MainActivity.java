@@ -19,7 +19,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import app.ij.mlwithtensorflowlite.R;
-import app.ij.mlwithtensorflowlite.ml.ModelUnquant;
+import app.ij.mlwithtensorflowlite.ml.FinalDataset;
 public class MainActivity extends AppCompatActivity {
     TextView result, confidence;
     ImageView imageView;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void classifyImage(Bitmap image){
         try {
-            ModelUnquant model = ModelUnquant.newInstance(getApplicationContext());
+            FinalDataset model = FinalDataset.newInstance(getApplicationContext());
             // Creates inputs for reference.
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             inputFeature0.loadBuffer(byteBuffer);
-            ModelUnquant.Outputs outputs = model.process(inputFeature0);
+            FinalDataset.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
             float[] confidences = outputFeature0.getFloatArray();
             int maxPos = 0;
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             //We need to add E-Wastes and Medical Wastes here and create a new model with more dataset
-            String[] classes = {"Biodegradable","Non - Biodegradable"};
+            String[] classes = {"Biodegradable","Non - Biodegradable","E - Waste","Medical Waste"};
             result.setText(classes[maxPos]);
             String s = "";
             for(int i = 0; i < classes.length; i++){
